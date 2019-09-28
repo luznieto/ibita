@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Experto Catálogo MIP</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="static/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <!-- Page level plugin CSS-->
+  <link href="static/css/dataTables.bootstrap4.css" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="static/css/sb-admin.css" rel="stylesheet">
+  <link  rel="icon"   href="static/img/catalogo_mip2.png" type="image/png">
+
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+    <a class="navbar-brand mr-1" href="#">Email Admin</a>
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      <i class="fas fa-bars"></i>
+    </button>
+  </nav>
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/">
+          <i class="fas fa-fw fa-sign-out-alt"></i>
+          <span>Salir</span>
+        </a>
+      </li>
+    </ul>
+
+    <div id="content-wrapper">
+      <div class="container-fluid">
+
+        <!--Form of input for new biologic agent-->
+        <br><br>
+    <h1> Catálogo MIP </h1>
+      <br><br>
+    <form method="post">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputAgente">Nombre</label>
+          <input name="agente" type="text" class="form-control" id="inputAgente" placeholder="Agente de Control..." required>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="inputTipo">Tipo</label>
+          <select name="tipo" id="inputTipo" class="form-control" required>
+            <option selected>Selecciona...</option>
+            <option>Bacteria</option>
+            <option>Hongo</option>
+            <option>Levadura</option>
+            <option>Planta</option>
+            <option>Extracto Vegetal</option>
+          </select>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="inputDescrip">Descripcion</label>
+          <select name="descrip" id="inputDescrip" class="form-control" required>
+            <option selected>Selecciona...</option>
+            <option>Bactericida</option>
+            <option>Fungicida</option>
+            <option>Insecticida</option>
+            <option>Refugio de fauna auxiliar</option>
+            <option>Atrayente de insectos depredadores y parasitoides</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputIssue">Organismo o enfermedad objetivo</label>
+          <input name="issue" type="text" class="form-control" id="inputIssue" placeholder="Control sobre..." required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputCulture">Cultivos o usos</label>
+          <input name="culture" type="text" class="form-control" id="inputCulture" placeholder="Actua en..." required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputProduct">Nombre del producto comercial</label>
+          <input name="product" type="text" class="form-control" id="inputProduct" placeholder="Producto comercial..." required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputCertified">Certificado o Registro</label>
+          <input name="certified" type="text" class="form-control" id="inputCertified" placeholder="Respaldo como producto ecológico" required>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success mx-auto">Subir</button>
+
+      {% if flag %}
+          <div class="alert alert-dark alert-dismissible fade show" role="alert">
+            <strong>¡Gracias por tu aportacion!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <script>
+                document.location.hash = '#signup';
+            </script>
+          </div>
+      {% endif %}
+
+    </form>
+    <br><br><br>
+
+        <!-- DataTables Example -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Base de datos de Agentes de Control Biológico</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Agente de control</th>
+                    <th> Tipo</th>
+                    <th>Descripción</th>
+                    <th>Organismo objetivo o enfermedad</th>
+                    <th>Cultivos</th>
+                    <th>Producto</th>
+                    <th>Registro</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Agente de control</th>
+                    <th> Tipo</th>
+                    <th>Descripción</th>
+                    <th>Organismo objetivo o enfermedad</th>
+                    <th>Cultivos</th>
+                    <th>Producto</th>
+                    <th>Registro</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+
+                  {% for ocb in ocbs %}
+                  <tr>
+                    <td>{{ ocb['agente'] }}</td>
+                    <td>{{ ocb['tipo'] }}</td>
+                    <td>{{ ocb['descrip'] }}</td>
+                    <td>{{ ocb['issue'] }}</td>
+                    <td>{{ ocb['culture'] }}</td>
+                    <td>{{ ocb['product'] }}</td>
+                    <td>{{ ocb['certified'] }}</td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer small text-muted">Última actualización hace un segundo.</div>
+        </div>
+
+      </div>
+      <!-- /.container-fluid -->
+
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; IBITA 2019</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="static/vendor/jquery/jquery.min.js"></script>
+  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Page level plugin JavaScript-->
+  <script src="static/js/jquery.dataTables.js"></script>
+  <script src="static/js/dataTables.bootstrap4.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="static/js/sb-admin.js"></script>
+
+  <!-- Demo scripts for this page-->
+  <script src="static/js/datatables-demo.js"></script>
+
+</body>
+
+</html>
